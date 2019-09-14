@@ -37,8 +37,11 @@ class Scraper:
                 url = self.imageURL
         elif qtype == 'news' and self.name in NEWS_SCRAPERS:
             url = self.newsURL
-        payload = {self.queryKey: query, self.startKey: startIndex,
-                   self.qtype: qtype}
+        if qtype.strip():
+            payload = {self.queryKey: query, self.startKey: startIndex,
+                       self.qtype: qtype}
+        else:
+            payload = {self.queryKey: query, self.startKey: startIndex}
         if self.name == 'mojeek' and qtype == 'news':
             payload['fmt'] = 'news'
         response = requests.get(url, headers=self.headers, params=payload)
